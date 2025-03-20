@@ -6,6 +6,7 @@ import glob
 directory=sys.argv[1]
 
 files = glob.glob(f"{directory}/seed*sample*/summary_confidences.json")
+pae = []
 for f in files :
     with open(f, 'r') as my_json : 
         info = json.load(my_json)
@@ -17,7 +18,7 @@ df = pd.DataFrame({
     'pae_min' : pae, 
 })
 
-sample = os.path.basename(directory)
+sample = sys.argv[2]
 df['sample'] = sample
 
 df.to_csv(f"{os.path.basename(directory)}.pae_min.tsv", sep = "\t", header = True, index = False)

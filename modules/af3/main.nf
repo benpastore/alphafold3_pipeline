@@ -97,9 +97,9 @@ process AF3_INFERENCE {
         --json_path="/root/af_input/${json_file}" \
         --model_dir=/root/models \
         --db_dir=/root/public_databases \
-        --output_dir=/root/af_outputosc
+        --output_dir=/root/af_output
     
-    python3 ${params.bin}/get_sum_conf.py \$PWD/\${json_basename}
+    python3 ${params.bin}/get_sum_conf.py \$PWD/\${json_basename} \${json_basename}
 
     """
 }
