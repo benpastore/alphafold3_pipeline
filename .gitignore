@@ -2,3 +2,4 @@
 *.out
 *.sbatch
 *.nextflow.log*
+*.nextflow
