@@ -1,0 +1,144 @@
+Mar-19 13:16:33.765 [main] DEBUG nextflow.cli.Launcher - $> nextflow /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/main.nf --fasta1 /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/fasta1.fa --fasta2 /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/fasta2.fa --outdir /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/development_output -resume
+Mar-19 13:16:34.150 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 24.10.5
+Mar-19 13:16:34.206 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/users/PAS1473/benpasto1/.nextflow/plugins; core-plugins: nf-amazon@2.9.2,nf-azure@1.10.2,nf-cloudcache@0.4.2,nf-codecommit@0.2.2,nf-console@1.1.4,nf-google@1.15.4,nf-tower@1.9.3,nf-wave@1.7.4
+Mar-19 13:16:34.313 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Mar-19 13:16:34.314 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Mar-19 13:16:34.316 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Mar-19 13:16:34.346 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Mar-19 13:16:34.381 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/nextflow.config
+Mar-19 13:16:34.383 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/nextflow.config
+Mar-19 13:16:34.416 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /users/PAS1473/benpasto1/.nextflow/secrets/store.json
+Mar-19 13:16:34.423 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@2bc12da] - activable => nextflow.secret.LocalSecretsProvider@2bc12da
+Mar-19 13:16:34.450 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Mar-19 13:16:35.094 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Mar-19 13:16:35.120 [main] DEBUG nextflow.cli.CmdRun - Launching `/fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/main.nf` [infallible_hugle] DSL2 - revision: 20140da0b4
+Mar-19 13:16:35.121 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Mar-19 13:16:35.122 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Mar-19 13:16:35.180 [main] DEBUG nextflow.Session - Session UUID: 8b265fe4-cef5-48d6-8a76-537ec528ed7d
+Mar-19 13:16:35.180 [main] DEBUG nextflow.Session - Run name: infallible_hugle
+Mar-19 13:16:35.181 [main] DEBUG nextflow.Session - Executor pool size: 2
+Mar-19 13:16:35.187 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Mar-19 13:16:35.192 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=10; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Mar-19 13:16:35.216 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 24.10.5 build 5935
+  Created: 04-03-2025 17:55 UTC (12:55 EDT)
+  System: Linux 5.14.0-427.49.1.el9_4.x86_64
+  Runtime: Groovy 4.0.23 on OpenJDK 64-Bit Server VM 17.0.13+11-LTS
+  Encoding: UTF-8 (UTF-8)
+  Process: 1451987@a0348.ten.osc.edu [10.6.21.14]
+  CPUs: 1 - Mem: 503.5 GB (426.6 GB) - Swap: 48 GB (47.7 GB)
+Mar-19 13:16:35.260 [main] DEBUG nextflow.Session - Work-dir: /fs/scratch/PCON0160/00AA_AF3 [gpfs]
+Mar-19 13:16:35.378 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Mar-19 13:16:35.388 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Mar-19 13:16:35.418 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Mar-19 13:16:35.436 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 2; maxThreads: 1000
+Mar-19 13:16:35.625 [main] DEBUG nextflow.Session - Session start
+Mar-19 13:16:35.863 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Mar-19 13:16:36.092 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_528d301c952a9681: /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/main.nf
+  Script_3033c73859cb44b9: /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/./modules/af3/main.nf
+Mar-19 13:16:36.093 [main] DEBUG nextflow.Session - Session aborted -- Cause: Cannot find a component with name 'AF3_ALIGNMENT_PRECOMPUTE' in module: /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/./modules/af3/main.nf
+Mar-19 13:16:36.097 [main] DEBUG nextflow.Session - 
+Thread[Signal Dispatcher,9,system]
+
+Thread[Reference Handler,10,system]
+  java.base@17.0.13/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+  java.base@17.0.13/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+  java.base@17.0.13/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+Thread[Common-Cleaner,8,InnocuousThreadGroup]
+  java.base@17.0.13/java.lang.Object.wait(Native Method)
+  java.base@17.0.13/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:155)
+  java.base@17.0.13/jdk.internal.ref.CleanerImpl.run(CleanerImpl.java:140)
+  java.base@17.0.13/java.lang.Thread.run(Thread.java:840)
+  java.base@17.0.13/jdk.internal.misc.InnocuousThread.run(InnocuousThread.java:162)
+
+Thread[Notification Thread,9,system]
+
+Thread[Thread-1,5,main]
+  java.base@17.0.13/jdk.internal.misc.Unsafe.park(Native Method)
+  java.base@17.0.13/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+  java.base@17.0.13/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1679)
+  java.base@17.0.13/java.util.concurrent.LinkedBlockingDeque.pollFirst(LinkedBlockingDeque.java:515)
+  java.base@17.0.13/java.util.concurrent.LinkedBlockingDeque.poll(LinkedBlockingDeque.java:677)
+  app//nextflow.util.SimpleAgent.run(SimpleAgent.groovy:89)
+  java.base@17.0.13/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  java.base@17.0.13/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+  java.base@17.0.13/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  java.base@17.0.13/java.lang.reflect.Method.invoke(Method.java:569)
+  app//org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)
+  app//groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)
+  app//groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1333)
+  app//groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1088)
+  app//groovy.lang.MetaClassImpl.invokeMethodClosure(MetaClassImpl.java:1017)
+  app//groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1207)
+  app//groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1088)
+  app//groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1007)
+  app//groovy.lang.Closure.call(Closure.java:433)
+  app//groovy.lang.Closure.call(Closure.java:412)
+  app//groovy.lang.Closure.run(Closure.java:505)
+  java.base@17.0.13/java.lang.Thread.run(Thread.java:840)
+
+Thread[Finalizer,8,system]
+  java.base@17.0.13/java.lang.Object.wait(Native Method)
+  java.base@17.0.13/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:155)
+  java.base@17.0.13/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:176)
+  java.base@17.0.13/java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:172)
+
+Thread[main,5,main]
+  java.base@17.0.13/java.lang.Thread.dumpThreads(Native Method)
+  java.base@17.0.13/java.lang.Thread.getAllStackTraces(Thread.java:1671)
+  app//nextflow.util.SysHelper.dumpThreads(SysHelper.groovy:188)
+  app//nextflow.Session.abort(Session.groovy:800)
+  app//nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:149)
+  app//nextflow.cli.CmdRun.run(CmdRun.groovy:376)
+  app//nextflow.cli.Launcher.run(Launcher.groovy:503)
+  app//nextflow.cli.Launcher.main(Launcher.groovy:658)
+
+Thread[process reaper,10,system]
+  java.base@17.0.13/jdk.internal.misc.Unsafe.park(Native Method)
+  java.base@17.0.13/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+  java.base@17.0.13/java.util.concurrent.SynchronousQueue$TransferStack.transfer(SynchronousQueue.java:401)
+  java.base@17.0.13/java.util.concurrent.SynchronousQueue.poll(SynchronousQueue.java:903)
+  java.base@17.0.13/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1061)
+  java.base@17.0.13/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+  java.base@17.0.13/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+  java.base@17.0.13/java.lang.Thread.run(Thread.java:840)
+
+Thread[AnsiLogObserver,5,main]
+  java.base@17.0.13/java.lang.Object.wait(Native Method)
+  app//nextflow.trace.AnsiLogObserver.render0(AnsiLogObserver.groovy:185)
+  java.base@17.0.13/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  java.base@17.0.13/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+  java.base@17.0.13/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  java.base@17.0.13/java.lang.reflect.Method.invoke(Method.java:569)
+  app//org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)
+  app//groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)
+  app//groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1333)
+  app//groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1088)
+  app//groovy.lang.MetaClassImpl.invokeMethodClosure(MetaClassImpl.java:1017)
+  app//groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1207)
+  app//groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1088)
+  app//groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1007)
+  app//groovy.lang.Closure.call(Closure.java:433)
+  app//groovy.lang.Closure.call(Closure.java:412)
+  app//groovy.lang.Closure.run(Closure.java:505)
+  java.base@17.0.13/java.lang.Thread.run(Thread.java:840)
+
+Mar-19 13:16:36.100 [main] ERROR nextflow.cli.Launcher - @unknown
+nextflow.exception.MissingModuleComponentException: Cannot find a component with name 'AF3_ALIGNMENT_PRECOMPUTE' in module: /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/./modules/af3/main.nf
+	at nextflow.script.ScriptMeta.addModule(ScriptMeta.groovy:302)
+	at nextflow.script.ScriptMeta.addModule(ScriptMeta.groovy:293)
+	at nextflow.script.IncludeDef.load0(IncludeDef.groovy:117)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at Script_528d301c952a9681.runScript(Script_528d301c952a9681:39)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.BaseScript.run0(BaseScript.groovy:159)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.BaseScript.run(BaseScript.groovy:209)
+	at nextflow.script.ScriptParser.runScript(ScriptParser.groovy:236)
+	at nextflow.script.ScriptRunner.run(ScriptRunner.groovy:243)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:138)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:376)
+	at nextflow.cli.Launcher.run(Launcher.groovy:503)
+	at nextflow.cli.Launcher.main(Launcher.groovy:658)
