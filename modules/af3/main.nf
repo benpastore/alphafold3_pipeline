@@ -30,13 +30,11 @@ process AF3_ALIGNMENT {
         val json_file_path
     
     output : 
-        tuple path("${json_basename}"), path("${json_basename}_data.json"), emit: af3_alignment
+        path("*_data.json"), emit: af3_alignment
 
     script:
     """ 
     #!/bin/bash
-
-    json_basename=\$(${json_file_path} .json)
 
     json_basename=\$(basename ${json_file_path} .json)
     json_dir=\$(dirname ${json_file_path})
@@ -75,7 +73,7 @@ process AF3_INFERENCE {
     label 'af3_inference'
 
     input : 
-        tuple val(json_dir), val(json_file)
+        val(json_file_path)
     
     output : 
         path("*.pae_min.tsv"), emit : summary_conf
@@ -84,23 +82,29 @@ process AF3_INFERENCE {
     """ 
     #!/bin/bash
 
-    json_basename=\$(${json_file} .afm)
+    
+    json_basename=\$(basename ${json_file_path} .json)
+    json_dir=\$(dirname ${json_file_path})
+    json_file=\$(basename ${json_file_path})
+    proteinA=\$(echo "\${json_basename}" | cut -d'_' -f1)
+    A_lower=\$(echo "\$proteinA" | awk '{print tolower(\$0)}')
 
     singularity exec --nv\
-        --bind ${json_dir}:/root/af_input \
+        --bind \${json_dir}:/root/af_input \
         --bind \$PWD:/root/af_output \
         --bind /fs/ess/PCON0160/ALPHAFOLD3/models:/root/models \
         --bind /fs/project/pub_data/alphafold3/3.0.0:/root/public_databases \
         docker://benpasto/alphafold3:latest \
         python3 /app/alphafold/run_alphafold.py \
         --norun_data_pipeline \
-        --json_path="/root/af_input/${json_file}" \
+        --json_path="/root/af_input/\${json_file}" \
         --model_dir=/root/models \
         --db_dir=/root/public_databases \
         --output_dir=/root/af_output
     
-    python3 ${params.bin}/get_sum_conf.py \$PWD/\${json_basename} \${json_basename}
-
+    python3 ${params.bin}/get_sum_conf.py \$PWD/\${A_lower} \${json_basename}
+    echo \$PWD/\${json_basename}
+    echo "Yeah Buddy"
     """
 }
 
@@ -114,7 +118,7 @@ process COMBINED_CONFIDENCE_SUMMARY {
         val summary_confs
     
     output : 
-        path "merged_pae_scores.tsv"
+        path("*.tsv")
     
     script : 
     """

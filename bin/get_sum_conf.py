@@ -1,7 +1,7 @@
 import os
 import json
-import pandas as pd
 import glob
+import sys
 
 directory=sys.argv[1]
 
@@ -12,13 +12,14 @@ for f in files :
         info = json.load(my_json)
         pae_min = info["chain_pair_pae_min"][0][1]
         pae.append(pae_min)
-f.close()
-
-df = pd.DataFrame({
-    'pae_min' : pae, 
-})
+    my_json.close()
 
 sample = sys.argv[2]
-df['sample'] = sample
+lines = 'pae_min\tsample\n'
+for p in pae : 
+    lines += f"{p}\t{sample}\n"
 
-df.to_csv(f"{os.path.basename(directory)}.pae_min.tsv", sep = "\t", header = True, index = False)
+output=f"{sample}.pae_min.tsv"
+op = open(output, 'w')
+op.write(lines)
+op.close()
