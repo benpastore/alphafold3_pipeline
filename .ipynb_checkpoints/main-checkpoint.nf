@@ -9,13 +9,6 @@
 
 sh run.sh --fasta1 $PWD/fasta1.fa --fasta2 $PWD/fasta2.fa --outdir $PWD/development_output -resume
 
-sh run.sh --fasta1 /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/af3_inputs/hcp1_screen/hcp1.fa --fasta2 /fs/ess/PCON0160/ben/pipelines/al
-phafold3_pipeline/af3_inputs/hcp1_screen/npp_seqs.fa --outdir /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/af3_outputs/hcp1_npp_screen
-
-
-sh run.sh --fasta1 /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/af3_inputs/disl2_screen/disl2.fa --fasta2 /fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/af3_inputs/disl2_screen/uniprot_reformatted.fa --outdir $PWD/af3_output/disl2_screen -resume
-
-
 ----------------------------------------------------------------------------------------
 */
 
@@ -27,8 +20,7 @@ Set default params
 params.bin = "${params.base}/bin"
 params.date = new Date().format( 'yyyyMMdd' )
 if (params.outdir)   { ; } else { exit 1, 'Output directory path not specified!' }
-//params.results = "${params.outdir}/${params.date}"
-params.results = "${params.outdir}"
+params.results = "${params.outdir}/${params.date}"
 
 /*
 ////////////////////////////////////////////////////////////////////
@@ -78,25 +70,6 @@ workflow af3_align {
     emit :
         alignments = AF3_ALIGNMENT.out.af3_alignment
 
-}
-
-workflow af3_align_batch_srun {
-
-  take:
-    jsons
-
-  main:
-    // Send 100 JSONs per job; each job runs 4 at a time with srun
-    def batchSize = params.align_batch ?: 100
-    jsons
-      .chunk(size: batchSize)
-      .set { json_batches }
-
-    AF3_ALIGNMENT_BATCH_SRUN(json_batches)
-
-  emit:
-    alignments = AF3_ALIGNMENT_BATCH_SRUN.out.af3_alignment.flatten()
-    
 }
 
 workflow af3_inference {

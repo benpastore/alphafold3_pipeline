@@ -72,87 +72,6 @@ process AF3_ALIGNMENT {
     """
 }
 
-// my_modules.nf
-process AF3_ALIGNMENT_BATCH_SRUN {
-
-    label 'af3_alignment_batch_srun'
-
-    // Publish all MSA outputs to the cache
-    publishDir "$params.msa_cache", mode: 'copy', pattern: "*_data.json"
-
-    input:
-        // Receive a list (e.g., 100 JSON paths)
-        val(json_list)
-
-    output:
-        path("*_data.json"), emit: af3_alignment
-
-    script:
-    """
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    # Concurrency per node (how many JSONs to run in parallel within this job)
-    PAR="\${params.align_parallel:-4}"
-
-    # Turn the Nextflow list into a bash array
-    JSONS=( ${json_list.join(' ')} )
-
-    run_one() {
-      local J="\$1"
-      local JABS
-      JABS="\$(readlink -f "\$J")"
-      local JDIR="\$(dirname "\$JABS")"
-      local JBASE="\$(basename "\$JABS")"
-
-      local json_basename="\${JBASE%.json}"
-      local proteinA="\$(echo "\$json_basename" | cut -d'_' -f1)"
-      local A_lower="\$(echo "\$proteinA" | awk '{print tolower(\$0)}')"
-      local cached_file="${params.msa_cache}/\${json_basename}_data.json"
-
-      if [[ -f "\$cached_file" ]]; then
-        echo "[CACHE] Using cached MSA: \$cached_file"
-        cp "\$cached_file" "./\${json_basename}_data.json"
-        return 0
-      fi
-
-      echo "[RUN ] Alignment for \$JBASE"
-
-      srun --mpi=none --exclusive -N1 -n1 -c "\${params.align_cpus_per_task:-28}" --cpu-bind=cores \
-        bash -lc '
-          set -euo pipefail
-          singularity exec \
-            --bind "'"$JDIR"'":/root/af_input \
-            --bind "$PWD":/root/af_output \
-            --bind /fs/ess/PCON0160/ALPHAFOLD3/models:/root/models \
-            --bind /fs/project/pub_data/alphafold3/3.0.0:/root/public_databases \
-            docker://benpasto/alphafold3:latest \
-            python3 /app/alphafold/run_alphafold.py \
-              --norun_inference \
-              --json_path="/root/af_input/'"\$JBASE"'" \
-              --model_dir=/root/models \
-              --db_dir=/root/public_databases \
-              --output_dir=/root/af_output
-
-          mv "$PWD/'"\$A_lower"'/''"'\$A_lower'"'_data.json" "$PWD/'"\$json_basename"'.json_tmp"
-        '
-
-      # Normalize the final name in the parent shell after srun returns
-      mv "$PWD/\${json_basename}.json_tmp" "$PWD/\${json_basename}_data.json"
-    }
-
-    # Launch up to PAR srun steps in parallel
-    i=0
-    for J in "\${JSONS[@]}"; do
-      run_one "\$J" &
-      (( i++ ))
-      if (( i % PAR == 0 )); then
-        wait
-      fi
-    done
-    wait
-    """
-}
 
 process AF3_INFERENCE {
 
@@ -180,11 +99,17 @@ process AF3_INFERENCE {
     """
     #!/bin/bash
 
+    MODEL_DB=/fs/ess/PCON0160/ALPHAFOLD3/models
+    AF_DB=/fs/project/pub_data/alphafold3/3.0.0
+
     json_basename=\$(basename ${json_file_path} .json)
     json_dir=\$(dirname ${json_file_path})
     json_file=\$(basename ${json_file_path})
     proteinA=\$(echo "\${json_basename}" | cut -d'_' -f1)
     A_lower=\$(echo "\$proteinA" | awk '{print tolower(\$0)}')
+
+    # move MODEL_DB, AF_DB, 
+
 
     singularity exec --nv\
         --bind \${json_dir}:/root/af_input \
@@ -208,7 +133,6 @@ process AF3_INFERENCE {
     """
 }
 
-/*
 process COMBINED_CONFIDENCE_SUMMARY { 
 
     label 'base'
@@ -231,36 +155,4 @@ process COMBINED_CONFIDENCE_SUMMARY {
 
     """
 
-}
-*/
-
-process COMBINED_CONFIDENCE_SUMMARY {
-    label 'base'
-    publishDir "$params.results", mode: 'move', pattern: 'merged_pae_scores.tsv'
-
-    // IMPORTANT: use `path` so Nextflow stages (symlinks) all inputs here,
-    // even if they're from many different directories.
-    input:
-    path summary_confs
-
-    output:
-    path "merged_pae_scores.tsv"
-
-    script:
-    """
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    # Write header once
-    printf "pae_min\tsample\n" > merged_pae_scores.tsv
-
-    # Build a null-delimited list of the staged files (robust to spaces)
-    : > files.nul
-    for f in ${summary_confs}; do
-      printf '%s\\0' "\$f" >> files.nul
-    done
-
-    # Stream all files, skip their first line (header), append to output
-    xargs -0 -a files.nul -n 1000 awk 'FNR>1{print}' >> merged_pae_scores.tsv
-    """
 }

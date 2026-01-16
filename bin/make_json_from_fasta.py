@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import json
-from itertools import product
+from itertools import product, combinations
 import argparse
 import os
 import glob
@@ -38,8 +38,21 @@ def fa_to_json(fa1, fa2) :
     fa1_names = list(fa1_dict.keys())
     fa2_names = list(fa2_dict.keys())
 
-    cross_product = [ list(pair) for pair in product(fa1_names, fa2_names)]
-    filt_cross_prod = [pair for pair in cross_product if len(set(pair)) > 1]
+    #cross_product = [ list(pair) for pair in product(fa1_names, fa2_names)]
+    #filt_cross_prod = [pair for pair in cross_product if len(set(pair)) > 1]
+    if fa1 == fa2:
+    # Unique unordered pairs without self-pairs
+        filt_cross_prod = [list(pair) for pair in combinations(fa1_names, 2)]
+    else:
+        # Unique cross product between two distinct sets (keep all A != B)
+        seen = set()
+        filt_cross_prod = []
+        for a in fa1_names:
+            for b in fa2_names:
+                if a != b and frozenset((a, b)) not in seen:
+                    seen.add(frozenset((a, b)))
+                    filt_cross_prod.append([a, b])
+
 
     for i in filt_cross_prod : 
         A_name = i[0]

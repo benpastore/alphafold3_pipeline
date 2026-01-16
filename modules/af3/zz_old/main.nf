@@ -100,3 +100,51 @@ process AF3_ALIGNMENT_PRECOMPUTE {
     cp "\$AFM_FILE" ./
     """
 }
+
+
+process AF3_ALIGNMENT {
+
+    label 'af3_alignment'
+
+    publishDir "$params.msa_cache", mode : 'copy', pattern : "*_data.json"
+
+    input :
+        val json_file_path
+    
+    output : 
+        path("*_data.json"), emit: af3_alignment
+
+    script:
+    """ 
+    #!/bin/bash
+
+    json_basename=\$(basename ${json_file_path} .json)
+    json_dir=\$(dirname ${json_file_path})
+    json_file=\$(basename ${json_file_path})
+
+    proteinA=\$(echo "\${json_basename}" | cut -d'_' -f1)
+
+    singularity exec \\
+        --bind "\${json_dir}:/root/af_input" \\
+        --bind "\$PWD:/root/af_output" \\
+        --bind /fs/ess/PCON0160/ALPHAFOLD3/models:/root/models \\
+        --bind /fs/project/pub_data/alphafold3/3.0.0:/root/public_databases \\
+        docker://benpasto/alphafold3:latest \\
+        python3 /app/alphafold/run_alphafold.py \\
+        --norun_inference \\
+        --json_path=/root/af_input/\${json_file} \\
+        --model_dir=/root/models \\
+        --db_dir=/root/public_databases \\
+        --output_dir=/root/af_output
+
+    A_lower=\$(echo "\$proteinA" | awk '{print tolower(\$0)}')
+
+    dir=\$PWD
+    mv \$A_lower ./\$json_basename
+    cd ./\$json_basename
+    mv \${A_lower}_data.json \${json_basename}_data.json
+    cd \$dir
+    mv ./\$json_basename/\${json_basename}_data.json .
+
+    """
+}

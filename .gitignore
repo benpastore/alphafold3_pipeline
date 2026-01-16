@@ -1,5 +1,7 @@
 .nextflow/
 *.out
+*.err
 *.sbatch
 *.nextflow.log*
 *.nextflow
+

@@ -5,9 +5,9 @@ set -euo pipefail
 #######################################
 # User-provided variables
 ####################################### 
-FASTA1="/fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/af3_inputs/prg1_hits_from_AF3_screen/prg1_hits.fa"
-FASTA2="/fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/af3_inputs/prg1_hits_from_AF3_screen/uniprot_reformatted.fa"
-OUTDIR="$PWD/af3_output/prg1_hits_from_AF3_screen"
+FASTA1="/fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/af3_inputs/E3_NEDD_SUMO_SCREEN/c_elegans_E3.fa"
+FASTA2="/fs/ess/PCON0160/ben/pipelines/alphafold3_pipeline/af3_inputs/E3_NEDD_SUMO_SCREEN/uniprot_reformatted.fa"
+OUTDIR="$PWD/af3_output/E3_NEDD_SUMO_SCREEN"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MAINNF="$SCRIPT_DIR/main.nf"
@@ -47,7 +47,7 @@ echo """#!/bin/bash
 #SBATCH --account=PCON0160
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
-#SBATCH --mem=32G
+#SBATCH --mem=4G
 #SBATCH --time=64:00:00
 #SBATCH --partition=nextgen
 #SBATCH --cluster=ascend
